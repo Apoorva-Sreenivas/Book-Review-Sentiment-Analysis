@@ -1,15 +1,15 @@
 import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer
-from nltk.tokenize import word_tokenize
-from nltk import pos_tag
-from nltk.corpus import stopwords
+# from nltk.tokenize import word_tokenize
+# from nltk import pos_tag
+# from nltk.corpus import stopwords
 # from nltk.stem.porter import PorterStemmer
-from nltk.stem.wordnet import WordNetLemmatizer
+# from nltk.stem.wordnet import WordNetLemmatizer
 import pandas as pd
 from tabulate import tabulate
 import matplotlib.pyplot as plt
 import numpy as np
-import re
+# import re
 
 sia = SentimentIntensityAnalyzer()
 
@@ -19,11 +19,15 @@ sia = SentimentIntensityAnalyzer()
 # nltk.download('wordnet')
 # nltk.download('averaged_perceptron_tagger')
 
-def analyze(cleaned_text):
-    print(len(cleaned_text))
+def analyze(review_elements):
+    dataset=[]
+    for i, review_element in enumerate(review_elements):
+        review = review_element.get_text(strip=True)
+        dataset.append(review)
+    print(len(dataset))
     res={}
     i=0
-    for data in cleaned_text:
+    for data in dataset:
         res[i]= sia.polarity_scores(data)
         i+=1
     # print(res)
@@ -68,74 +72,74 @@ def plot(stars,vaders):
     plt.subplots_adjust(left=0.2,hspace=0.6)
     plt.show()
     
-def clean_text(review_elements):
-    dataset=[]
-    for i, review_element in enumerate(review_elements):
-        review = review_element.get_text(strip=True)
-        dataset.append(review)
+# def clean_text(review_elements):
+#     dataset=[]
+#     for i, review_element in enumerate(review_elements):
+#         review = review_element.get_text(strip=True)
+#         dataset.append(review)
     
-    clean_text_1=[]
-    for data in dataset:
-        clean_text_1.append(str.lower(data))
+#     clean_text_1=[]
+#     for data in dataset:
+#         clean_text_1.append(str.lower(data))
     
-    # print(clean_text_1)
-    # print("----------------------------------------")
+#     # print(clean_text_1)
+#     # print("----------------------------------------")
     
-    clean_text_2=[word_tokenize(i) for i in clean_text_1]
+#     clean_text_2=[word_tokenize(i) for i in clean_text_1]
 
 
-    # print(clean_text_2)
-    # print("----------------------------------------")
+#     # print(clean_text_2)
+#     # print("----------------------------------------")
 
-    clean_text_3=[]
-    for words in clean_text_2:
-        clean=[]
-        for w in words:
-            res = re.sub(r'[^\w\s]',"",w)
-            if res !="":
-                clean.append(res)
-        clean_text_3.append(clean)
-    # print(clean_text_3)
-    # print("----------------------------------------")
+#     clean_text_3=[]
+#     for words in clean_text_2:
+#         clean=[]
+#         for w in words:
+#             res = re.sub(r'[^\w\s]',"",w)
+#             if res !="":
+#                 clean.append(res)
+#         clean_text_3.append(clean)
+#     # print(clean_text_3)
+#     # print("----------------------------------------")
 
-    clean_text_4=[]
-    for words in clean_text_3:
-        w=[]
-        for word in words:
-            if not word in stopwords.words('english'):
-                w.append(word)
-        clean_text_4.append(w)
+#     clean_text_4=[]
+#     for words in clean_text_3:
+#         w=[]
+#         for word in words:
+#             if not word in stopwords.words('english'):
+#                 w.append(word)
+#         clean_text_4.append(w)
     
-    # print(clean_text_4)
-    # print("----------------------------------------")
+#     # print(clean_text_4)
+#     # print("----------------------------------------")
 
-    pos_tag_1=[]
-    for words in clean_text_4:
-        pos_tag_1.append(pos_tag(words))
-    # print(pos_tag_1)
-    # print("----------------------------------------")
+#     pos_tag_1=[]
+#     for words in clean_text_4:
+#         pos_tag_1.append(pos_tag(words))
+#     # print(pos_tag_1)
+#     # print("----------------------------------------")
 
-    wnet = WordNetLemmatizer()
-    clean_text_5=[]
-    for words in pos_tag_1:
-        w=[]
-        for word,tag in words:
-            wntag = tag.lower()
-            wntag= wntag[0]
-            wntag = wntag if wntag in ['a','r','n','v'] else None
-            if not wntag:
-                w.append(word)
-            else:
-                w.append(wnet.lemmatize(word,wntag))
-        clean_text_5.append(w)
+#     wnet = WordNetLemmatizer()
+#     clean_text_5=[]
+#     for words in pos_tag_1:
+#         w=[]
+#         for word,tag in words:
+#             wntag = tag.lower()
+#             wntag= wntag[0]
+#             wntag = wntag if wntag in ['a','r','n','v'] else None
+#             if not wntag:
+#                 w.append(word)
+#             else:
+#                 w.append(wnet.lemmatize(word,wntag))
+#         clean_text_5.append(w)
 
-    # print(clean_text_5)
-    # print("----------------------------------------")
+#     # print(clean_text_5)
+#     # print("----------------------------------------")
 
-    cleaned_text =[]
-    for words in clean_text_5:
-        my_string = " ".join(words)
-        cleaned_text.append(my_string)
-        my_string=""
-    # print(cleaned_text)
-    return cleaned_text
+#     cleaned_text =[]
+#     for words in clean_text_5:
+#         my_string = " ".join(words)
+#         cleaned_text.append(my_string)
+#         my_string=""
+#     # print(cleaned_text)
+#     return cleaned_text
