@@ -1,11 +1,12 @@
 import get_reviews
 import analysis
 
-# book = input("Enter the name of the book : ")
-reviews,stars =get_reviews.fetch_reviews()
-# cleaned_data = analysis.clean_text(reviews)
-vaders = analysis.analyze(reviews)
-analysis.plot(stars,vaders)
-# analysis.plot2(vaders)
+class Control:
+
+    def call(self,book_name):
+        reviews,stars,overall_rating,book_name_1,book_name_2,author_name =get_reviews.fetch_reviews(book_name)
+        vaders = analysis.analyze(reviews)
+        analysis.plot(stars,vaders)
+        return overall_rating,book_name_1,book_name_2,author_name
 
     
